@@ -1,5 +1,5 @@
 # display name
-name: Docker Push Image
+name: docker push image
 
 # trigger
 on:
