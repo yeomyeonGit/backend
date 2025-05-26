@@ -17,8 +17,15 @@ jobs:
       - name: java checkout code
         uses: actions/checkout@v3
       
+      # jdk 설치
       - name: setup jdk
         uses: actions/setup-java@v3
         with:
           java-version: 17
           distribution: 'temurin'
+      
+      # 패킹
+      - name: build jar
+        # 기존에 있는 jar를 없애고 새로 패킹해줌. 문제) 지금 환경은 리눅스 환경이라서 권한이 필요함. 지금은 권한을 정상적으로 부여받지 못해서 permission 오류 생김
+        run: ./gradlew clean build bootJar
+
