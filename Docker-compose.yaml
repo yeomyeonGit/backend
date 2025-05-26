@@ -20,7 +20,7 @@ services:
 
   database:
     # yaml db 정보
-    image: theelectricrat/siat-mariadb
+    image: theelectricrat/siat-action-backend:latest
     container_name: backend-maria-container
     ports:
       - "6033:3306" # 외부접근포트:내부접근포트, application.yml에 포트번호를 6033으로 해야 한다
