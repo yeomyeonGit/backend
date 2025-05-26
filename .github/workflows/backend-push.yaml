@@ -41,7 +41,11 @@ jobs:
       - name: docker login    # hub에 로그인
         uses: docker/login-action@v3    # 버전 확인 잘 하기
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}   # docker 사용자명
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      
+      # 실행
+      # 쉘스크립트로 원격 서버에 접근
       
     
