@@ -1,5 +1,5 @@
 # display name
-name: docker push image
+name: Docker Push Image
 
 # trigger
 on:
@@ -34,4 +34,23 @@ jobs:
         # 문제) 지금 환경은 리눅스 환경이라서 권한이 필요함. 지금은 권한을 정상적으로 부여받지 못해서 permission 오류 생김
         # linux chmod
         run: ./gradlew clean build bootJar
+
+      - name: Set up Docker Buildx    # docker desktop 깐 느림
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Login to DockerHub    # hub에 로그인
+        uses: docker/login-action@v3    # 버전 확인 잘 하기
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Build and push    # 이미지 만들어서 푸시
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
