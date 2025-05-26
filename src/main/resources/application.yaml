@@ -5,7 +5,7 @@ spring:
     # Maria DB
     datasource:
         driver-class-name: org.mariadb.jdbc.Driver
-        url: jdbc:mariadb://maria-container:3306/devops
+        url: jdbc:mariadb://maria-container:6033/devops
         username: root
         password: 123456789
 
