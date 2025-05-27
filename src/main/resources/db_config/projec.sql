@@ -4,4 +4,4 @@ create table pjt_user_tbl(
     name varchar(50)
 );
 
-insert into pjt_user_tbl values("jslim", "jslim", "섭섭이") ;
+insert into pjt_user_tbl values("thingme", "thingme", "띵미") ;
