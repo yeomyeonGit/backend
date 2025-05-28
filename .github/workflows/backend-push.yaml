@@ -51,9 +51,38 @@ jobs:
       # 1. 이미지 생성
       - name: docker image
         # git action이 아니라 docker 명령어
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/siat-action-backend:latest . 
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/siat-git-action-backend:latest . 
       # 2. docker push
       - name: docker push
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/siat-action-backend:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/siat-git-action-backend:latest
+      
+      # aws
+      - name: Write docker-compose.yml on EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            mkdir -p /home/ubuntu/backend
+            cat << 'EOF' > /home/ubuntu/backend/docker-compose.yml
+            services:
+              app:
+                image: ${{ secrets.DOCKERHUB_USERNAME }}/siat-git-action-backend:latest
+                ports:
+                  - "8808:8088"
+                restart: always
+            EOF
+
+      - name: Deploy docker-compose
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}   # ec2 서버의 엔드포인트
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/ubuntu/backend
+            docker compose pull ${{ secrets.DOCKERHUB_USERNAME }}/siat-git-action-backend:latest
+            docker compose up -d
       
     

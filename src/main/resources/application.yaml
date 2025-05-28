@@ -5,8 +5,9 @@ spring:
     # Maria DB
     datasource:
         driver-class-name: org.mariadb.jdbc.Driver
-        url: jdbc:mariadb://maria-container:6033/devops
-        username: root
+        # url: jdbc:mariadb://maria-container:6033/devops    # 로컬일 때
+        url: jdbc:mariadb://siat.chemo6ews4j2.ap-northeast-2.rds.amazonaws.com:3306/siat
+        username: root     # env나 git action secret으로 숨길 수 있음
         password: 123456789
 
         # # Mybatis 설정
