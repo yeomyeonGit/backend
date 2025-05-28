@@ -37,5 +37,13 @@ public class UserCtrl {
         userService.signUpService(params) ;
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/msg")
+    public ResponseEntity<String> postMethodName(@RequestBody String entity) {
+        //TODO: process POST request
+        
+        return ResponseEntity.ok().body("return msg");
+    }
+    
     
 }
