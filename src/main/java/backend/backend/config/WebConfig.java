@@ -10,8 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
             .allowedHeaders("*")
-            
-            .allowedOrigins("http://siat-frontend-cmion.s3-website.ap-northeast-2.amazonaws.com")
+            .allowedOrigins("http://siat-frontend-cmion.s3-website.ap-northeast-2.amazonaws.com:3000")
             .allowedMethods("*")
             .allowCredentials(true) ;
     }
