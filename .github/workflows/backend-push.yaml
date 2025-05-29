@@ -13,7 +13,7 @@ jobs:
 
     # job 안에서 실행되는 것 명시
     steps:
-      # action 정의
+      # action 정의 - checkout: 코드를 내려 받는다
       - name: java checkout code
         uses: actions/checkout@v3
       
@@ -24,7 +24,7 @@ jobs:
           java-version: 17
           distribution: 'temurin'
       
-
+      # 권한도 설정: 모든 권한
       - name: grant permission
         run: chmod +x gradlew
 
@@ -35,34 +35,34 @@ jobs:
         # linux chmod
         run: ./gradlew clean build bootJar
 
-      - name: docker build    # docker desktop 깐 느림
+      - name: docker build    # docker desktop 깔기
         uses: docker/setup-buildx-action@v3
       
-      - name: docker login    # hub에 로그인
+      - name: docker login    # docker hub에 로그인
         uses: docker/login-action@v3    # 버전 확인 잘 하기
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}   # docker 사용자명
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}    # docker 토큰
 
       
       # 실행
       # 쉘스크립트로 원격 서버에 접근
 
-      # 1. 이미지 생성
+      # 1. docker 이미지 생성
       - name: docker image
         # git action이 아니라 docker 명령어
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/siat-git-action-backend:latest . 
-      # 2. docker push
+      # 2. docker push: docker hub로 이미지를 업로드
       - name: docker push
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/siat-git-action-backend:latest
       
-      # aws
+      # aws EC2 서버 연결
       - name: Write docker-compose.yml on EC2 via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}    # 엔드포인트
+          username: ${{ secrets.SSH_USERNAME }}    # ubuntu
+          key: ${{ secrets.SSH_KEY }}      # pem 키
           script: |
             mkdir -p /home/ubuntu/backend
             cat << 'EOF' > /home/ubuntu/backend/docker-compose.yml
