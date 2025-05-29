@@ -82,9 +82,13 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/ubuntu/backend
+            echo "컨테이너 중지"
+            docker compose down
+            echo "이미지 삭제"
+            docker image prune -af
             docker compose pull ${{ secrets.DOCKERHUB_USERNAME }}/siat-git-action-backend:latest
             docker compose up -d
-            
+
             
       
     
