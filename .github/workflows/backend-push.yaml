@@ -85,5 +85,6 @@ jobs:
             docker compose pull ${{ secrets.DOCKERHUB_USERNAME }}/siat-git-action-backend:latest
             docker compose up -d
             
+            
       
     
