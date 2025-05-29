@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
             .allowedHeaders("*")
             .allowedOrigins("http://siat-frontend-cmion.s3-website.ap-northeast-2.amazonaws.com")
-            .allowedMethods("*")
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowCredentials(true) ;
     }
 }
